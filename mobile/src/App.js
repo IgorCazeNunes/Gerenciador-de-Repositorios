@@ -15,15 +15,20 @@ export default function App() {
   const [repositories, setRepositories] = useState([]);
 
   useEffect(() => {
+
     api.get('repositories').then(response => {
-      console.log('AAAAAAAAAAAAAAA')
       setRepositories(response.data);
-    })
+    });
+
   }, []);
 
   async function handleLikeRepository(id) {
-    // Implement "Like Repository" functionality
-  }
+
+    const response = await api.post(`repositories/${id}/like`);
+
+    setRepositories(repositories.map(repository => repository.id == id ? response.data : repository ));
+    
+  };
 
   return (
     <>
